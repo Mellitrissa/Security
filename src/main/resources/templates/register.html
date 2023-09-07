@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Registration</h1>
+<form id="registrationForm" action="/api/auth/register" method="post">
+    <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="username">Email</label>
+        <input type="email" id="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <label for="roles">Roles</label>
+        <input type="checkbox" id="role_user" name="roles[]" value="ROLE_USER">
+        <label for="role_user">User</label>
+        <input type="checkbox" id="role_admin" name="roles[]" value="ROLE_ADMIN">
+        <label for="role_admin">Admin</label>
+    </div>
+    <div>
+        <input type="submit" value="Register">
+    </div>
+</form>
+
+<div id="responseMessage"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#registrationForm').submit(function(e) {
+            e.preventDefault();
+
+            const form = $(this);
+            const url = form.attr('action');
+
+            const selectedRoles = [];
+            if ($('#role_user').is(':checked')) {
+                selectedRoles.push('ROLE_USER');
+            }
+            if ($('#role_admin').is(':checked')) {
+                selectedRoles.push('ROLE_ADMIN');
+            }
+            console.log("Selected roles: " + selectedRoles);
+
+            if (selectedRoles.length > 0) {
+                console.log("Selected roles: " + selectedRoles);
+            } else {
+                console.log("No roles selected");
+            }
+
+            const formData = {
+                name: $('#name').val(),
+                username: $('#username').val(),
+                password: $('#password').val(),
+                roleNames: selectedRoles
+            };
+            console.log("Form data: " + formData);
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function(response) {
+                    $('#responseMessage').text('Registration successful. Redirecting to task page...');
+                    setTimeout(function() {
+                        window.location.href = '/task';
+                    }, 2000);
+                },
+                error: function(xhr, status, error) {
+                    const errorMessage = xhr.responseText;
+                    $('#responseMessage').text('Registration failed: ' + errorMessage);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
