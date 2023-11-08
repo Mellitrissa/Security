@@ -2,10 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.model.Role;
 import com.example.demo.repositories.RoleRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-
+@Component
 public class RoleServiceImpl implements RoleService{
     private final RoleRepository roleRepository;
     public RoleServiceImpl(RoleRepository roleRepository) {
@@ -25,4 +26,5 @@ public class RoleServiceImpl implements RoleService{
     public List<Role> findRolesByNameIn(List<String> roleNames) {
         return roleRepository.findRolesByNameIn(roleNames);
     }
+
 }

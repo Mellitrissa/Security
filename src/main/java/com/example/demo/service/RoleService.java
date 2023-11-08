@@ -10,4 +10,5 @@ public interface RoleService {
     Optional<Role> findRoleByName(String name);
 
     List<Role> findRolesByNameIn(List<String> roleNames);
+
 }

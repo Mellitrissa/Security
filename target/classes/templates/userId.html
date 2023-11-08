@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Пользователь</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+ <input autofocus type="submit" value="Logout">
+<body>
+<form action=# th:object="${user}" method="post">
+  <table >
+    <tr>
+      <td>User ID:</td>
+      <td><input type="text" th:field="*{id}" readonly="readonly"></td>
+    </tr>
+    <tr>
+      <td>User Name:</td>
+      <td><input type="text" th:field="*{name}"></td>
+      <td>User Email:</td>
+      <td><input type="text" th:field="*{username}"></td>
+    <tr>
+      <td>Role</td>
+      <td th:text="${role.toString()}"></td>
+    </tr>
+  </table>
+</form>
+<form th:action="@{/admin/{id}/update(id=${user.getId()})}" th:object="${user}" method="post">
+  <label>
+    Email
+    <input type="text" name="email" th:field="${user.username}">
+  </label>
+  <br>
+  <label>
+    Имя
+    <input type="text" name="firstName" th:field="${user.name}">
+  </label>
+  <br>
+  <input type="submit" value="Сохранить">
+</form>
+</body>
+</html>
